@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 #include "Sprite.hpp"
 
-Sprite::Banana(){
+Sprite::Sprite(){
   	surface = IMG_Load("./assets/banana.png");
   
 	if( surface == NULL ){
@@ -23,7 +23,7 @@ Sprite::Banana(){
 	velocity.setZ(0);
 }
 
-Sprite::~Banana(){
+Sprite::~Sprite(){
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
 }
