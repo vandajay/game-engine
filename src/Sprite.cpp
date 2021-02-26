@@ -2,7 +2,7 @@
 #include "Sprite.hpp"
 
 Sprite::Banana(){
-  surface = IMG_Load("./assets/banana.png");
+  	surface = IMG_Load("./assets/banana.png");
   
 	if( surface == NULL ){
 		SDL_Log("Unable to load banana.");
