@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 #include "Sprite.hpp"
 
-Banana::Banana(){
+Sprite::Banana(){
   surface = IMG_Load("./assets/banana.png");
   
 	if( surface == NULL ){
@@ -23,12 +23,12 @@ Banana::Banana(){
 	velocity.setZ(0);
 }
 
-Banana::~Banana(){
+Sprite::~Banana(){
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
 }
 
-void Banana::update(double delta){
+void Sprite::update(double delta){
 	// So we stop getting the compiler warning for now.
 	position.setX(position.getX() + velocity.getX() * delta);
 	position.setY(position.getY() + velocity.getY() * delta);
@@ -40,7 +40,7 @@ void Banana::update(double delta){
 	}
 }
 
-void Banana::draw(){
+void Sprite::draw(){
 	SDL_Rect* dst = new SDL_Rect();
 	dst->x = position.getX();
 	dst->y = position.getY();
@@ -49,22 +49,22 @@ void Banana::draw(){
 	SDL_RenderCopy(Engine::getRenderer(), texture, NULL, dst);
 }
 
-void Banana::left(double delta){
+void Sprite::left(double delta){
 	if(velocity.getX() > -200){
 		velocity.setX(velocity.getX() - 10);
 	}
 }
-void Banana::right(double delta){
+void Sprite::right(double delta){
 	if(velocity.getX() < 200){
 		velocity.setX(velocity.getX() + 10);
 	}
 }
-void Banana::up(double delta){
+void Sprite::up(double delta){
 	if(velocity.getY() > -200 ){
 		velocity.setY(velocity.getY() - 10);
 	}
 }
-void Banana::down(double delta){
+void Sprite::down(double delta){
 	if(velocity.getY() < 200 ){
 		velocity.setY(velocity.getY() + 10);
 	}
