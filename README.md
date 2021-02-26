@@ -1,4 +1,4 @@
-# leagueplusplus-2021W
+# CIS380 Game Engine
 
 Not intended to be production code, more an academic endeavor.  
 
