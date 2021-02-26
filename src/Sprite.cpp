@@ -1,11 +1,12 @@
 #include "Engine.hpp"
 #include "Sprite.hpp"
 
-Sprite::Sprite(){
-  	surface = IMG_Load("./assets/banana.png");
+Sprite::Sprite(String path){
+  	//surface = IMG_Load("./assets/banana.png");
+	surface = IMG_Load(path);
   
 	if( surface == NULL ){
-		SDL_Log("Unable to load banana.");
+		SDL_Log("Unable to load sprite.");
 		exit(1);
 	}
   
