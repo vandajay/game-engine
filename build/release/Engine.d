@@ -46,7 +46,8 @@ build/release/Engine.o: src/Engine.cpp include/Engine.hpp \
   /usr/local/include/SDL2/SDL_version.h \
   /usr/local/include/SDL2/SDL_locale.h \
   /usr/local/include/SDL2/SDL_misc.h include/Utility.hpp \
-  include/Scene.hpp
+  include/Scene.hpp include/Properties.hpp \
+  /usr/local/include/SDL2/SDL_ttf.h
 
 include/Engine.hpp:
 
@@ -151,3 +152,7 @@ include/Interfaces.hpp:
 include/Utility.hpp:
 
 include/Scene.hpp:
+
+include/Properties.hpp:
+
+/usr/local/include/SDL2/SDL_ttf.h:

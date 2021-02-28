@@ -1,0 +1,15 @@
+*~
+\#~
+*.class
+*.zip
+*.swp
+a.out
+bin
+build
+.DS_Store
+
+# 351
+munit.jar
+Mars.jar
+Mars4_5.jar
+DLUnit.jar

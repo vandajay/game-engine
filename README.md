@@ -1,4 +1,4 @@
-# CIS380 Game Engine
+# leagueplusplus-2021W
 
 Not intended to be production code, more an academic endeavor.  
 
@@ -7,5 +7,5 @@ Will be in C++ but adhere to a lot of Java style, as that is what students in th
 REQUIREMENTS
 ===
 
-SDL2 and SDL2_Image
+SDL2 and SDL2_Image SDL2_ttf
 

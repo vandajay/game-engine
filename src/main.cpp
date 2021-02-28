@@ -1,5 +1,7 @@
 #include "Engine.hpp"
-#include "Banana.hpp"
+#include "Sprite.hpp"
+#include "HUD.hpp"
+#include "Properties.hpp"
 #include <SDL2/SDL.h>
 
 int main(int argc, char** argv){
@@ -8,24 +10,53 @@ int main(int argc, char** argv){
 		SDL_Log("%d = %s", i, argv[i]);
 	}
 
+	// Create an engine.  Must happen early, creates the renderer.
+	Engine engine( WIN_W, WIN_H );
 	// Create a scene
 	Scene one;
-	// Create an engine.  Must happen early, creates the renderer.
-	Engine engine(1024, 768);
 
-	// Make a banana and add to scene. Should update and draw.
-	// Banana* b = new Banana();
-	Sprite* b = new Sprite("./assets/banana.png");
-	one.addUpdateable(b);
-	one.addDrawable(b);
-	auto b_up = [b](double delta) { b->up(delta); };
-	auto b_down = [b](double delta) { b->down(delta); };
-	auto b_left = [b](double delta) { b->left(delta); };
-	auto b_right = [b](double delta) { b->right(delta); };
-	one.addKeyEvent( SDLK_w, b_up );
-	one.addKeyEvent( SDLK_a, b_left );
-	one.addKeyEvent( SDLK_d, b_right );
-	one.addKeyEvent( SDLK_s, b_down );
+	SDL_Surface *surface = IMG_Load("./assets/80x80_Tank_Red_L.png");
+	Sprite* g = new Sprite(surface);
+
+	Sprite* r = new Sprite("./assets/80x80_Tank_Green_R.png");
+	
+	
+
+	// Make a Sprite and add to scene. Should update and draw.
+	//Sprite* g = new Sprite("./assets/tank_red_left.png");
+	g->setScene(&one);
+	one.addUpdateable(g);
+	one.addDrawable(g);
+	auto g_up = [g](double delta) { g->up(delta); };
+	auto g_down = [g](double delta) { g->down(delta); };
+	auto g_left = [g](double delta) { g->left(delta); };
+	auto g_right = [g](double delta) { g->right(delta); };
+	auto g_fire = [g](double delta) { g->fire(delta); };
+	one.addKeyEvent( SDLK_w, g_up );
+	one.addKeyEvent( SDLK_a, g_left );
+	one.addKeyEvent( SDLK_d, g_right );
+	one.addKeyEvent( SDLK_s, g_down );
+	one.addKeyEvent( SDLK_SPACE, g_fire );
+
+	r->setScene(&one);
+	one.addUpdateable(r);
+	one.addDrawable(r);
+	auto r_up = [r](double delta) { r->up(delta); };
+	auto r_down = [r](double delta) { r->down(delta); };
+	auto r_left = [r](double delta) { r->left(delta); };
+	auto r_right = [r](double delta) { r->right(delta); };
+	auto r_fire = [r](double delta) { r->fire(delta); };
+	one.addKeyEvent( SDLK_UP, r_up );
+	one.addKeyEvent( SDLK_LEFT, r_left );
+	one.addKeyEvent( SDLK_RIGHT, r_right );
+	one.addKeyEvent( SDLK_DOWN, r_down );
+	one.addKeyEvent( SDLK_RSHIFT, r_fire );
+
+
+	// Add the HUD
+	HUD* h = new HUD();
+	one.addUpdateable(h);
+	one.addDrawable(h);
 
 	// Set the scene in the engine
 	engine.setScene(&one);

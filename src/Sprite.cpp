@@ -1,15 +1,16 @@
 #include "Engine.hpp"
 #include "Sprite.hpp"
+#include "Properties.hpp"
+#include "Projectile.hpp"
 
-Sprite::Sprite(String path){
-  	//surface = IMG_Load("./assets/banana.png");
-	surface = IMG_Load(path);
-  
+Sprite::Sprite(std::string path){
+	this->path = path.c_str();
+
+	surface = IMG_Load(this->path);
 	if( surface == NULL ){
 		SDL_Log("Unable to load sprite.");
 		exit(1);
 	}
-  
 	texture = SDL_CreateTextureFromSurface(Engine::getRenderer(), surface);
 	if( texture == NULL ){
 		SDL_Log("-----> HAVE YOU CREATED THE ENGINE YET? <-----");
@@ -24,6 +25,42 @@ Sprite::Sprite(String path){
 	velocity.setZ(0);
 }
 
+Sprite::Sprite(SDL_Surface *surface){
+	texture = SDL_CreateTextureFromSurface(Engine::getRenderer(), surface);
+	if( texture == NULL ){
+		SDL_Log("-----> HAVE YOU CREATED THE ENGINE YET? <-----");
+		SDL_Log("Unable to create texture. %s", SDL_GetError());
+	}
+	rect->x = 0;
+	rect->y = 0;
+	rect->w = surface->w;
+	rect->h = surface->h;
+	velocity.setX(0);
+	velocity.setY(0);
+	velocity.setZ(0);
+}
+
+Sprite::Sprite(){
+	surface = IMG_Load("./assets/banana.png");
+	if( surface == NULL ){
+		SDL_Log("Unable to load Sprite.");
+		exit(1);
+	}
+	texture = SDL_CreateTextureFromSurface(Engine::getRenderer(), surface);
+	if( texture == NULL ){
+		SDL_Log("-----> HAVE YOU CREATED THE ENGINE YET? <-----");
+		SDL_Log("Unable to create texture. %s", SDL_GetError());
+	}
+	rect->x = 0;
+	rect->y = 0;
+	rect->w = surface->w;
+	rect->h = surface->h;
+	velocity.setX(0);
+	velocity.setY(0);
+	velocity.setZ(0);
+}
+
+
 Sprite::~Sprite(){
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
@@ -33,10 +70,10 @@ void Sprite::update(double delta){
 	// So we stop getting the compiler warning for now.
 	position.setX(position.getX() + velocity.getX() * delta);
 	position.setY(position.getY() + velocity.getY() * delta);
-	if(position.getX() > 1024-rect->w || position.getX() < 0){
+	if(position.getX() > WIN_W - rect->w || position.getX() < 0){
 		velocity.setX(- velocity.getX());
 	}
-	if(position.getY() > 768-rect->h || position.getY() < 0){
+	if(position.getY() > WIN_H - rect->h || position.getY() < 0){
 		velocity.setY(- velocity.getY());
 	}
 }
@@ -71,4 +108,16 @@ void Sprite::down(double delta){
 	}
 }
 
+void Sprite::setScene(Scene* scene){
+	this->scene = scene;
+}
 
+void Sprite::fire(double delta){
+	Projectile* p = new Projectile();
+	p->position.setX( position.getX() );
+	p->position.setY( position.getY() );
+	p->velocity.setX(velocity.getX() * 2);
+	p->velocity.setY(velocity.getY() * 2);
+	this->scene->addDrawable(p);
+	this->scene->addUpdateable(p);
+}

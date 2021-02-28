@@ -47,7 +47,7 @@ build/release/Banana.o: src/Banana.cpp include/Engine.hpp \
   /usr/local/include/SDL2/SDL_locale.h \
   /usr/local/include/SDL2/SDL_misc.h include/Utility.hpp \
   include/Scene.hpp include/Banana.hpp \
-  /usr/local/include/SDL2/SDL_image.h
+  /usr/local/include/SDL2/SDL_image.h include/Projectile.hpp
 
 include/Engine.hpp:
 
@@ -156,3 +156,5 @@ include/Scene.hpp:
 include/Banana.hpp:
 
 /usr/local/include/SDL2/SDL_image.h:
+
+include/Projectile.hpp:
