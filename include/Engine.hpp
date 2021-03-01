@@ -5,6 +5,12 @@
 #include "Scene.hpp"
 #include <SDL2/SDL.h>
 
+/**********************************************************************
+/
+/ Engine.hpp
+/
+**********************************************************************/
+
 class Engine {
 	public:
 		Engine(int _width, int _height);
@@ -12,6 +18,8 @@ class Engine {
 		void run();
 		void setFrameRate(double _frameRate);
 		void setScene(Scene* scene);
+
+		// Static memory address, share between classes
 		static SDL_Renderer* getRenderer();
 	private:
 		unsigned long current;

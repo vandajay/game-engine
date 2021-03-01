@@ -3,6 +3,13 @@
 #include "Properties.hpp"
 #include "Projectile.hpp"
 
+/**********************************************************************
+/
+/ Sprite.cpp
+/
+**********************************************************************/
+
+// Overloaded constructors
 Sprite::Sprite(std::string path){
 	this->path = path.c_str();
 
@@ -11,6 +18,8 @@ Sprite::Sprite(std::string path){
 		SDL_Log("Unable to load sprite.");
 		exit(1);
 	}
+
+	// Convert surface -> texture (surface = software rendered, texture = hardware)
 	texture = SDL_CreateTextureFromSurface(Engine::getRenderer(), surface);
 	if( texture == NULL ){
 		SDL_Log("-----> HAVE YOU CREATED THE ENGINE YET? <-----");
@@ -60,12 +69,16 @@ Sprite::Sprite(){
 	velocity.setZ(0);
 }
 
-
 Sprite::~Sprite(){
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
 }
 
+/****************************************
+/
+/ Update Sprite
+/
+****************************************/
 void Sprite::update(double delta){
 	// So we stop getting the compiler warning for now.
 	position.setX(position.getX() + velocity.getX() * delta);
@@ -78,6 +91,11 @@ void Sprite::update(double delta){
 	}
 }
 
+/****************************************
+/
+/ Draw Sprite
+/
+****************************************/
 void Sprite::draw(){
 	SDL_Rect* dst = new SDL_Rect();
 	dst->x = position.getX();
@@ -87,31 +105,45 @@ void Sprite::draw(){
 	SDL_RenderCopy(Engine::getRenderer(), texture, NULL, dst);
 }
 
+// Set scene for sprite
+void Sprite::setScene(Scene* scene){
+	this->scene = scene;
+}
+
+/****************************************
+/
+/ Controls
+/
+****************************************/
+// WEST
 void Sprite::left(double delta){
 	if(velocity.getX() > -200){
 		velocity.setX(velocity.getX() - 10);
 	}
 }
+
+// EAST
 void Sprite::right(double delta){
 	if(velocity.getX() < 200){
 		velocity.setX(velocity.getX() + 10);
 	}
 }
+
+// NORTH
 void Sprite::up(double delta){
 	if(velocity.getY() > -200 ){
 		velocity.setY(velocity.getY() - 10);
 	}
 }
+
+// SOUTH
 void Sprite::down(double delta){
 	if(velocity.getY() < 200 ){
 		velocity.setY(velocity.getY() + 10);
 	}
 }
 
-void Sprite::setScene(Scene* scene){
-	this->scene = scene;
-}
-
+// Fire
 void Sprite::fire(double delta){
 	Projectile* p = new Projectile();
 	p->position.setX( position.getX() );

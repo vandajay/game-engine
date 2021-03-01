@@ -3,7 +3,14 @@
 #include "Utility.hpp"
 #include "Scene.hpp"
 
+/**********************************************************************
+/
+/ Scene.cpp
+/
+**********************************************************************/
+
 Scene::Scene(){
+	// Basic scene audio
 	int i, count = SDL_GetNumAudioDevices(0);
 	if(count < 1){
 		SDL_Log("Audio error. %s", SDL_GetError());
@@ -25,6 +32,7 @@ Scene::~Scene(){
 
 }
 
+// Update vectors
 void Scene::addUpdateable(Updateable* obj){
 	this->updateables.push_back(obj);
 }

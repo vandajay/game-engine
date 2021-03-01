@@ -2,13 +2,19 @@
 #include "Projectile.hpp"
 #include "Properties.hpp"
 
+/**********************************************************************
+/
+/ Projectile.cpp
+/
+**********************************************************************/
+
 Projectile::Projectile(){
 	surface = IMG_Load("./assets/star.png");
 	if( surface == NULL ){
 		SDL_Log("Unable to load star.");
 		exit(1);
 	}
-	texture = SDL_CreateTextureFromSurface(Engine::getRenderer(), surface);
+	texture = SDL_CreateTextureFromSurface( Engine::getRenderer(), surface );
 	if( texture == NULL ){
 		SDL_Log("-----> HAVE YOU CREATED THE ENGINE YET? <-----");
 		SDL_Log("Unable to create texture. %s", SDL_GetError());
@@ -29,13 +35,14 @@ Projectile::~Projectile(){
 
 void Projectile::update(double delta){
 	// So we stop getting the compiler warning for now.
-	position.setX(position.getX() + velocity.getX() * delta);
-	position.setY(position.getY() + velocity.getY() * delta);
-	if(position.getX() > WIN_W - rect->w || position.getX() < 0){
+	position.setX( position.getX() + velocity.getX() * delta );
+	position.setY( position.getY() + velocity.getY() * delta );
+
+	if( position.getX() > WIN_W - rect->w || position.getX() < 0 ){
 		velocity.setX(- velocity.getX());
 	}
-	if(position.getY() > WIN_H - rect->h || position.getY() < 0){
-		velocity.setY(- velocity.getY());
+	if( position.getY() > WIN_H - rect->h || position.getY() < 0 ){
+		velocity.setY( - velocity.getY() );
 	}
 }
 

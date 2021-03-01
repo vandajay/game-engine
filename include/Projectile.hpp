@@ -7,15 +7,23 @@
 #include "Utility.hpp"
 #include "Scene.hpp"
 
+/**********************************************************************
+/
+/ Projectile.hpp
+/
+**********************************************************************/
+
 class Projectile : public DUGameObject {
 	public:
 		Projectile();
 		~Projectile();
 		void update(double delta);
-		void draw();	
+		void draw();
+		
 	private:
 		Vector3 velocity;
-
+	
+	// Friend class has access to Projectile.hpp, one way relationship	
 	friend class Sprite;
 };
 

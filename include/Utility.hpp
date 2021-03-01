@@ -1,7 +1,13 @@
 #ifndef			__HPP_UTILITY__
 #define			__HPP_UTILITY__
 
-#include <functional>
+#include <functional> // Callback
+
+/**********************************************************************
+/
+/ Utility.hpp
+/
+**********************************************************************/
 
 typedef std::function<void(double)> Callback;
 

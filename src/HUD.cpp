@@ -3,15 +3,22 @@
 #include <SDL2/SDL_ttf.h>
 #include <random>
 
+/**********************************************************************
+/
+/ HUD.cpp
+/
+**********************************************************************/
+
 HUD::HUD(){
-	stick = TTF_OpenFont("./assets/DotGothic16-Regular.ttf", 48);
-	if(stick == NULL){
+	// Load font
+	font = TTF_OpenFont("./assets/DotGothic16-Regular.ttf", 48);
+	if(font == NULL){
 		SDL_Log("No font. %s", TTF_GetError());
 	}
 	color.r=0;
 	color.g=0;
 	color.b=0;
-	surface = TTF_RenderText_Solid(stick, "TANKS! TANKS! TANKS! TANKS! TANKS! TANKS!", color); 
+	surface = TTF_RenderText_Solid( font, "TANKS! TANKS! TANKS! TANKS! TANKS! TANKS!", color ); 
 	if(surface == NULL){
 		SDL_Log("Can't create text. %s", SDL_GetError());
 	}
@@ -32,18 +39,29 @@ HUD::~HUD(){
 	SDL_FreeSurface(surface);
 }
 
+
+/****************************************
+/
+/ Update HUD
+/
+****************************************/
 void HUD::update(double delta){
 	elapsed += delta;
 	if(elapsed > 1){
 		color.r = uni(rng);
 		color.b = uni(rng);
 		color.g = uni(rng);
-		surface = TTF_RenderText_Solid(stick, "TANKS! TANKS! TANKS! TANKS! TANKS! TANKS!", color); 
-		texture = SDL_CreateTextureFromSurface(Engine::getRenderer(), surface);
+		surface = TTF_RenderText_Solid( font, "TANKS! TANKS! TANKS! TANKS! TANKS! TANKS!", color ); 
+		texture = SDL_CreateTextureFromSurface( Engine::getRenderer(), surface );
 
 	}
 }
 
+/****************************************
+/
+/ Draw HUD
+/
+****************************************/
 void HUD::draw(){
 	SDL_Rect* dst = new SDL_Rect();
 	dst->x = position.getX();

@@ -4,33 +4,45 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-// For linking purposes, we need to declare this static member in the cpp file.
-SDL_Renderer* Engine::renderer = nullptr;
-
 /**********************************************************************
 /
 / Engine.cpp
 /
 **********************************************************************/
 
+// For linking purposes, we need to declare this static member in the cpp file.
+SDL_Renderer* Engine::renderer = nullptr;
 
 Engine::Engine(int _width, int _height){
+	// Define abstracted variables
 	this->width = _width;
 	this->height = _height;
+
+	// FPS defined in Properties.hpp
 	frameRate = 1000.0 / FPS;
 	SDL_Init(SDL_INIT_EVERYTHING);
+
+	// SDL Audio
 	TTF_Init();
+
+	// Initialize SDL_Window
 	window = SDL_CreateWindow("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+
+	// Confirm SDL_Window
 	if( window == nullptr ){
 		SDL_Log("Could not create a window. %s", SDL_GetError());
 	}
+
+	// Initialize SDL_Renderer
 	Engine::renderer = SDL_CreateRenderer(window, -1, 0);
 	if( Engine::renderer == nullptr ){
 		SDL_Log("Could not create a renderer. %s", SDL_GetError());
 	}
+
 	SDL_Log("Initialized. Frame rate set to %f.", frameRate);
 }
 
+// Engine destructor
 Engine::~Engine(){
 	SDL_Log("Destroying renderer.");
 	SDL_DestroyRenderer(Engine::renderer);
@@ -73,7 +85,7 @@ void Engine::run(){
 		current = SDL_GetTicks();
 		int delta = current - last;
 
-		// delta should be atleast the target framerate before we continue
+		// Delta should be atleast the target framerate before we continue
 		while(delta < frameRate) {
 			SDL_Delay(frameRate - delta);
 			current = SDL_GetTicks();
@@ -88,6 +100,7 @@ void Engine::run(){
 		/ GET EVENTS
 		/
 		******************************/
+		// process all events for each frame		
 		while(SDL_PollEvent(&event) > 0){
 			if(event.type == SDL_QUIT){
 				quit = true;
@@ -110,26 +123,30 @@ void Engine::run(){
 		/ UPDATE OBJECTS
 		/
 		******************************/
-		for(std::vector<Updateable*>::iterator it = currentScene->updateables.begin(); it != currentScene->updateables.end(); ++it){
+		for(std::vector<Updateable*>::iterator it = currentScene->updateables.begin(); it != currentScene->updateables.end(); ++it){ // ++it uses less memory
 			(*it)->update(gameDelta);
 		}			
-
-		SDL_SetRenderDrawColor(Engine::renderer, BGR, BGG, BGB, BGA);
-		SDL_RenderClear(Engine::renderer);
+	
 		
 		/******************************
 		/
 		/ RENDER
 		/
 		******************************/
+
+				SDL_SetRenderDrawColor(Engine::renderer, BGR, BGG, BGB, BGA);
+		SDL_RenderClear(Engine::renderer);
+
 		for(std::vector<Drawable*>::iterator it = currentScene->drawables.begin(); it != currentScene->drawables.end(); ++it){
 			(*it)->draw();
 		}
+
+		// FLIP image, replace currently displayed image with buffer
 		SDL_RenderPresent(Engine::renderer);
 
 		framecount++;
 	}
-}
+} // end Engine::run()
 
 void Engine::setFrameRate(double _frameRate){
 	this->frameRate = _frameRate;

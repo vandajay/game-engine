@@ -4,6 +4,12 @@
 #include <SDL2/SDL.h>
 #include "Utility.hpp"
 
+/**********************************************************************
+/
+/ Interfaces.hpp
+/
+**********************************************************************/
+
 class GameObject {
 	protected:
 		Vector3 position;
@@ -12,6 +18,7 @@ class GameObject {
 
 class Updateable {
 	public:
+		// Virtual, behaviour can be overridden in derived class
 		virtual void update(double delta) = 0;	
 		virtual ~Updateable() = default;
 };
@@ -20,24 +27,28 @@ class Drawable {
 	public:
 		Drawable();
 		virtual void draw() = 0;
+
+		// Virtual destructor required for compilation
 		virtual ~Drawable() = default;
 
 	protected:
+		// Rect defines area to draw
 		SDL_Rect* rect;
+
+		// SDL_Surface = software rendering
 		SDL_Surface* surface;
+
+		// SDL_Texture = hardware rendering (optimized)
 		SDL_Texture* texture;
 };
 
-class UGameObject : public GameObject, public Updateable {
+// Triggered events, score, time
+class UGameObject : public GameObject, public Updateable {};
 
-};
+// Static objects, buildings, terrain
+class DGameObject : public GameObject, public Drawable {};
 
-class DGameObject : public GameObject, public Drawable {
-
-};
-
-class DUGameObject : public GameObject, public Drawable, public Updateable {
-
-};
+// Players, enemies, npc
+class DUGameObject : public GameObject, public Drawable, public Updateable {};
 
 #endif

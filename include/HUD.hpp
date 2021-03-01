@@ -8,6 +8,12 @@
 #include "Utility.hpp"
 #include <random>
 
+/**********************************************************************
+/
+/ HUD.hpp
+/
+**********************************************************************/
+
 class HUD : public DUGameObject {
 	public:
 		HUD();
@@ -15,13 +21,12 @@ class HUD : public DUGameObject {
 		void update(double delta);
 		void draw();	
 	private:
-		TTF_Font* stick;
+		TTF_Font* font;
 		SDL_Color color;
 		int elapsed;
 		std::random_device rd;
 		std::mt19937 rng;
 		std::uniform_int_distribution<int> uni;
-
 };
 
 #endif

@@ -1,5 +1,11 @@
 #include "Utility.hpp"
 
+/**********************************************************************
+/
+/ Utility.cpp
+/
+**********************************************************************/
+
 Vector2::Vector2(double x, double y) {
 	this->x = x;
 	this->y = y;
@@ -32,4 +38,3 @@ double Vector3::getZ(){
 void Vector3::setZ(double z){
 	this->z = z;
 }
-
